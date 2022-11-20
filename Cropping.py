@@ -11,8 +11,12 @@ from PIL import Image, ImageChops
 def image_processing(img):
     # image = cv2.imread(img)
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    blur = cv2.GaussianBlur(gray, (3, 3), 0)
+    max = np.asarray(blur, dtype='float64').max()
+    min = np.asarray(blur, dtype='float64').min()
+    T = (max + min) / 2
     # print(gray)
-    thresh1 = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    thresh1 = cv2.threshold(blur, T, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
     # edges = cv2.Canny(gray, 100, 200, apertureSize=3)
 
     return thresh1, gray
@@ -85,6 +89,8 @@ def cropping_vertical(img_sentence):
     cropping_img = []
     for index, range_black in enumerate(idx_range):
         cropping_img.append(img_sentence[:, range_black[0]:range_black[1]])
+        length = len(cropping_img[index]) + 1024 - 1024 % len(cropping_img[index])
+        cropping_img[index]=np.pad(cropping_img[index], 8, 'constant', constant_values=0)
 
     # print(cropping_img)
     return cropping_img

@@ -14,12 +14,12 @@ from sklearn.preprocessing import LabelBinarizer
 
 # from Data_Ready import data_ready
 
-dir_train_data = "../dataset/data/training_data"
-dir_val_data = "../dataset/data/testing_data"
+dir_train_data = "../../dataset/data/training_data"
+dir_val_data = "../../dataset/data/testing_data"
 train_data = []
 val_data = []
 batch_size = 32
-epochs = 100
+epochs = 200
 IMG_HEIGHT = 32
 IMG_WIDTH = 32
 # data_size = 400
@@ -60,7 +60,7 @@ val_data_gen = normal_image_gen.flow_from_directory(batch_size=batch_size,
 resnet_model = Sequential()
 
 pretrained_model = tf.keras.applications.ResNet50(include_top=False,
-                                                      input_shape=(IMG_HEIGHT, IMG_WIDTH, 1),
+                                                  input_shape=(IMG_HEIGHT, IMG_WIDTH, 1),
                                                   pooling='avg', classes=36,
                                                   weights=None)
 
@@ -69,7 +69,7 @@ resnet_model.add(Flatten())
 resnet_model.add(Dense(512, activation='relu'))
 resnet_model.add(Dense(36, activation='softmax'))
 
-checkpoint_path = "training_resnet_50_3/cp.ckpt"
+checkpoint_path = "pretrained_resnet_200_aug/cp.ckpt"
 checkpoint_dir = os.path.dirname(checkpoint_path)
 
 cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
@@ -81,14 +81,6 @@ cp_callback = tf.keras.callbacks.ModelCheckpoint(filepath=checkpoint_path,
 # EarlyStop_callback = EarlyStopping(monitor='val_loss', patience=20, restore_best_weights=True)
 # lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=3, min_lr=0.00001)
 # my_callback = [EarlyStop_callback, cp_callback]
-
-# resnet_model.compile(loss='categorical_crossentropy', optimizer="adam", metrics=['accuracy'])
-
-# EarlyStopping
-# early_stop = EarlyStopping(monitor='val_accuracy',
-#                            patience=20,
-#                            restore_best_weights=True,
-#                            mode='auto')
 
 resnet_model.compile(loss=tf.keras.losses.CategoricalCrossentropy(),
                      optimizer=Adam(learning_rate=0.01),
@@ -108,9 +100,9 @@ os.listdir(checkpoint_dir)
 #
 # print(loss * 100, acc * 100)
 
-np.save('history_resnet_100_aug.npy', history.history)
+np.save('history_resnet_200_aug.npy', history.history)
 
-resnet_model.save('model_resnet_100_aug.h5')
+resnet_model.save('model_resnet_200_aug.h5')
 
 
 # train_images = []

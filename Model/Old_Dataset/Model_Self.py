@@ -12,8 +12,8 @@ from keras_preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelBinarizer
 
-dir_train_data = "../dataset/data/training_data"
-dir_val_data = "../dataset/data/testing_data"
+dir_train_data = "../../dataset/data/training_data"
+dir_val_data = "../../dataset/data/testing_data"
 batch_size = 32
 epochs = 50
 IMG_HEIGHT = 28

@@ -11,8 +11,8 @@ from sklearn.preprocessing import LabelBinarizer
 
 # from Data_Ready import data_ready
 
-dir_train_data = "../dataset/data/training_data"
-dir_val_data = "../dataset/data/testing_data"
+dir_train_data = "../../dataset/data/training_data"
+dir_val_data = "../../dataset/data/testing_data"
 train_data = []
 val_data = []
 img_size = 224
